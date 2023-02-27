@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Character {
+public class Franchise {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,15 +20,8 @@ public class Character {
     @Column(length = 50, nullable = false)
     private String name;
 
-    @Column(length = 50)
-    private String alias;
+    private String description;
 
-    @Column(length = 32)
-    private String gender;
-
-    @Column(length = 128)
-    private String pictureUrl;
-
-    @ManyToMany(mappedBy = "characters")
+    @OneToMany(mappedBy = "franchise")
     private Set<Movie> movies;
 }
