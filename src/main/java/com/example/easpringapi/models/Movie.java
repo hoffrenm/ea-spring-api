@@ -57,7 +57,7 @@ public class Movie {
         this.genre = genre;
         this.releaseYear = releaseYear;
         this.director = director;
-        this.franchise = franchise
+        this.franchise = franchise;
     }
 
 }
