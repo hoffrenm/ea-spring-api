@@ -118,7 +118,19 @@ public class MovieController {
             return ResponseEntity.noContent().build();
         }
 
+        //update a character in a movie
 
-        //delete character from a movie
+    @PutMapping("{id}/characters")
+    @Operation(summary = "update a character in a movie")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Update succesful",
+                    content = @Content)
+    })
+
+    public ResponseEntity updateCharacter(@PathVariable int id, @RequestBody int[] charactersIds) {
+        movieservice.updateCharacters(id, charactersIds);
+        return ResponseEntity.noContent().build();
+    }
 
 }
