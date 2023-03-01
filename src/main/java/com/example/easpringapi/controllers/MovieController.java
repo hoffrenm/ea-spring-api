@@ -19,6 +19,7 @@ import java.net.URI;
 import java.util.Collection;
 
 @RestController
+@RequestMapping(path = "api/v1/movies") //maybe
 public class MovieController {
 
     private final MovieService movieservice;
@@ -35,17 +36,18 @@ public class MovieController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Movie fetched succesfully",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = MovieDTO.class))})
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = MovieDTO.class))
+                    })
     })
 
-    public ResponseEntity findById(@PathVariable int id) {
-            return ResponseEntity.ok(
+    public ResponseEntity<Movie> findById(@PathVariable int id) {
+        return ResponseEntity.ok(
                 moviemapper.movieToMovieDTO(
-                        movieservice.findAll()));
+                        movieservice.findById(id)));
 
     }
-
 
     //get all
     @GetMapping
@@ -53,15 +55,16 @@ public class MovieController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "All movies fetched succesfully",
-                    content = {@Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = MovieDTO.class)))})
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation = MovieDTO.class)))
+                    })
     })
 
-    public ResponseEntity<Collection<MovieDTO>> getAll() {
-        Collection<MovieDTO> movies = moviemapper.movieToMovieDTO(
-                movieservice.findAll()
-        );
-        return ResponseEntity.ok(movies);
+    public ResponseEntity getAll() {
+        return ResponseEntity.ok(
+                moviemapper.movieToMovieDTO(
+                        movieservice.findAll()));
     }
 
     //create
@@ -104,21 +107,23 @@ public class MovieController {
     @DeleteMapping("{id}")
     @Operation(summary = "Delete a given movie")
     @ApiResponses(value = {
-            @ApiResponse( responseCode =  "204",
+            @ApiResponse(responseCode = "204",
                     description = "Movie deleted succesfully",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = MovieDTO.class))})
-            })
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = MovieDTO.class))
+                    })
+    })
 
     public ResponseEntity deleteById(@RequestBody MovieDTO moviedto, @PathVariable int id) {
-        if(id == moviedto.getId())
+        if (id == moviedto.getId())
             movieservice.delete(
                     moviemapper.movieDTOToMovie(moviedto)
             );
-            return ResponseEntity.noContent().build();
-        }
+        return ResponseEntity.noContent().build();
+    }
 
-        //update a character in a movie
+    //update a character in a movie
 
     @PutMapping("{id}/characters")
     @Operation(summary = "update a character in a movie")

@@ -4,14 +4,13 @@ import com.example.easpringapi.mappers.MovieMapper;
 import com.example.easpringapi.models.Movie;
 import com.example.easpringapi.models.Character;
 
+import com.example.easpringapi.models.dto.MovieDTO;
 import com.example.easpringapi.repositories.MovieRepository;
 import com.example.easpringapi.repositories.CharacterRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 
 @Service
 public class MovieService {

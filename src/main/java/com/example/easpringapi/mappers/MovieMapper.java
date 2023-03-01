@@ -19,9 +19,12 @@ public abstract class MovieMapper {
 
     //public abstract MovieDTO movieToMovieDTO(Movie movie);
 
-    public abstract Collection<MovieDTO> movieToMovieDTO(Collection<Movie> movie);
+    public abstract Collection<MovieDTO> movieToMovieDTO(Collection<MovieDTO> moviedto);
+    //public abstract Collection<Movie> movieToMovie(Collection<Movie> movie);
 
     public abstract Movie movieDTOToMovie(MovieDTO movieDTO);
+
+    //public abstract Movie movieToMovieDtoO(Movie movie);
 
 
     @Named(value = "charactersToCharactersId")

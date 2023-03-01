@@ -1,11 +1,11 @@
-INSERT INTO movie (title, genre, releaseYear, director, franchise)
-VALUES ('The Two Towers', 'Fantasy', 2002, 'Peter Jackson', 'Lord of the Rings');
+INSERT INTO movie (title, genre, releaseYear, director)
+VALUES ('The Two Towers', 'Fantasy', 2002, 'Peter Jackson');
 
-INSERT INTO movie (title, genre, releaseYear, director, franchise)
-VALUES ('The Prisoner of Azkaban', 'Fantasy', 2004, 'Alfonso Cuarón', 'Harry Potter');
+INSERT INTO movie (title, genre, releaseYear, director)
+VALUES ('The Prisoner of Azkaban', 'Fantasy', 2004, 'Alfonso Cuarón');
 
-INSERT INTO movie (title, genre, releaseYear, director, franchise)
-VALUES ('New Moon', 'Romance', 2009, 'Chris Weitz', 'The Twilight Saga');
+INSERT INTO movie (title, genre, releaseYear, director)
+VALUES ('New Moon', 'Romance', 2009, 'Chris Weitz');
 
 
 INSERT INTO character (name, alias, gender) VALUES ('Aragorn', 'Strider', 'Male');
