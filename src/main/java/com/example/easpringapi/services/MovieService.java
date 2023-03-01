@@ -1,5 +1,6 @@
 package com.example.easpringapi.services;
 
+import com.example.easpringapi.exceptions.CharacterNotFoundException;
 import com.example.easpringapi.mappers.MovieMapper;
 import com.example.easpringapi.models.Movie;
 import com.example.easpringapi.models.Character;
@@ -7,6 +8,8 @@ import com.example.easpringapi.models.Character;
 import com.example.easpringapi.repositories.MovieRepository;
 import com.example.easpringapi.repositories.CharacterRepository;
 import org.springframework.stereotype.Service;
+import com.example.easpringapi.exceptions.MovieNotFoundException;
+
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -24,8 +27,9 @@ public class MovieService {
         this.characterrepository = characterrepository;
     }
 
-    public Movie findById(Integer integer) {
-        return movierepository.findById(integer).get();
+    public Movie findById(Integer id) {
+
+        return movierepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
     }
 
     public Collection<Movie> findAll() {
