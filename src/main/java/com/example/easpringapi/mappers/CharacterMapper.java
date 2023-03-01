@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public abstract class CharacterMapper {
 
-    protected MovieService service;
+    protected MovieService movieService;
 
     @Mapping(target = "movies", source = "movies", qualifiedByName = "moviesToIds")
     public abstract CharacterDTO characterToCharacterDTO(Character character);
@@ -23,7 +23,8 @@ public abstract class CharacterMapper {
     @Mapping(target = "movies", source = "movies", qualifiedByName = "moviesToIds")
     public abstract Collection<CharacterDTO> characterToCharacterDTO(Collection<Character> students);
 
-    //public abstract Character characterDTOToCharacter(CharacterDTO dto);
+    @Mapping(target = "movies", source = "movies", qualifiedByName = "movieIdsToMovies")
+    public abstract Character characterDTOToCharacter(CharacterDTO dto);
 
     @Named("moviesToIds")
     Set<Integer> map(Set<Movie> source) {
@@ -34,12 +35,18 @@ public abstract class CharacterMapper {
                 .collect(Collectors.toSet());
     }
 
+    // Temporarily map movie ids to null
+    @Named("movieIdsToMovies")
+    Set<Movie> mapIdsToMovies(Set<Integer> id) {
+        return null;
+    }
+
     /*
     @Named("movieIdsToMovies")
     Set<Movie> mapIdsToMovies(Set<Integer> id) {
         return id.stream()
-                .map(i -> service.findById(i))
+                .map(i -> movieService.findById(i))
                 .collect(Collectors.toSet());
     }
-     */
+    */
 }

@@ -5,6 +5,7 @@ import com.example.easpringapi.mappers.CharacterMapper;
 import com.example.easpringapi.models.Character;
 import com.example.easpringapi.services.CharacterService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -20,32 +21,32 @@ import java.util.Collection;
 @RequestMapping(path = "api/v1/characters")
 public class CharacterController {
 
-    private final CharacterService service;
-    private final CharacterMapper mapper;
+    private final CharacterService characterService;
+    private final CharacterMapper characterMapper;
 
-    public CharacterController(CharacterService service, CharacterMapper mapper) {
-        this.service = service;
-        this.mapper = mapper;
+    public CharacterController(CharacterService characterService, CharacterMapper characterMapper) {
+        this.characterService = characterService;
+        this.characterMapper = characterMapper;
     }
 
-    // GET: localhost:8080/api/v1/characters
+    // GET: /api/v1/characters
     @Operation(summary = "Get all characters")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = CharacterDTO.class))})
+                            array = @ArraySchema(schema = @Schema(implementation = CharacterDTO.class)))})
     })
     @GetMapping
     public ResponseEntity<Collection<CharacterDTO>> getAll() {
-        Collection<CharacterDTO> characters = mapper.characterToCharacterDTO(
-                service.findAll()
+        Collection<CharacterDTO> characters = characterMapper.characterToCharacterDTO(
+                characterService.findAll()
         );
 
         return ResponseEntity.ok(characters);
     }
 
-    // GET: localhost:8080/api/v1/characters/1
+    // GET: /api/v1/characters/1
     @Operation(summary = "Get a character by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -58,14 +59,14 @@ public class CharacterController {
     })
     @GetMapping("{id}")
     public ResponseEntity<CharacterDTO> getById(@PathVariable int id) {
-        CharacterDTO charDTO = mapper.characterToCharacterDTO(
-                service.findById(id)
+        CharacterDTO charDTO = characterMapper.characterToCharacterDTO(
+                characterService.findById(id)
         );
 
         return ResponseEntity.ok(charDTO);
     }
 
-    // POST: localhost:8080/api/v1/characters/1
+    // POST: /api/v1/characters
     @Operation(summary = "Create a new character")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
@@ -77,12 +78,17 @@ public class CharacterController {
                     content = @Content)
     })
     @PostMapping
-    public ResponseEntity<CharacterDTO> add(@Valid @RequestBody Character character) {
-        CharacterDTO cha = mapper.characterToCharacterDTO(service.add(character));
-        return ResponseEntity.status(HttpStatus.CREATED).body(cha);
+    public ResponseEntity<CharacterDTO> add(@RequestBody Character character) {
+        try {
+            Character createdCharacter = characterService.add(character);
+            CharacterDTO createdCharacterDTO = characterMapper.characterToCharacterDTO(createdCharacter);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdCharacterDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
-    // PUT: localhost:8080/api/v1/characters/1
+    // PUT: /api/v1/characters/1
     @Operation(summary = "Update a character by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
@@ -99,11 +105,11 @@ public class CharacterController {
             return ResponseEntity.badRequest().build();
         }
 
-        service.update(character);
+        characterService.update(character);
         return ResponseEntity.noContent().build();
     }
 
-    // DELETE: localhost:8080/api/v1/characters/1
+    // DELETE: /api/v1/characters/1
     @Operation(summary = "Delete a character by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
@@ -112,7 +118,7 @@ public class CharacterController {
     })
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
-        service.deleteById(id);
+        characterService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

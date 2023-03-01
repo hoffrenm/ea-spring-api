@@ -19,7 +19,6 @@ public class Character {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull
     @Column(length = 50, nullable = false)
     private String name;
 
