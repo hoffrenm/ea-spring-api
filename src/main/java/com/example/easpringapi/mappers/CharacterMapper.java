@@ -21,7 +21,7 @@ public abstract class CharacterMapper {
     public abstract CharacterDTO characterToCharacterDTO(Character character);
 
     @Mapping(target = "movies", source = "movies", qualifiedByName = "moviesToIds")
-    public abstract Collection<CharacterDTO> characterToCharacterDTO(Collection<Character> students);
+    public abstract Collection<CharacterDTO> characterToCharacterDTO(Collection<Character> characters);
 
     @Mapping(target = "movies", source = "movies", qualifiedByName = "movieIdsToMovies")
     public abstract Character characterDTOToCharacter(CharacterDTO dto);

@@ -3,9 +3,8 @@ package com.example.easpringapi.mappers;
 import com.example.easpringapi.models.Franchise;
 import com.example.easpringapi.models.Movie;
 import com.example.easpringapi.models.Character;
-import com.example.easpringapi.models.dto.MovieDTO;
+import com.example.easpringapi.dto.MovieDTO;
 
-import com.example.easpringapi.repositories.MovieRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

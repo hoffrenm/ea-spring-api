@@ -1,7 +1,7 @@
 package com.example.easpringapi.controllers;
 
 import com.example.easpringapi.mappers.MovieMapper;
-import com.example.easpringapi.models.dto.MovieDTO;
+import com.example.easpringapi.dto.MovieDTO;
 import com.example.easpringapi.models.Movie;
 import com.example.easpringapi.services.MovieService;
 import io.swagger.v3.oas.annotations.Operation;

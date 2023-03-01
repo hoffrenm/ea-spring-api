@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
+
+@RestController
+@RequestMapping(path = "api/v1/franchise")
 public class FranchiseController {
 
     private final FranchiseService franchiseService;
@@ -36,10 +39,7 @@ public class FranchiseController {
     })
     @GetMapping
     public ResponseEntity<Collection<FranchiseDTO>> getAll() {
-        Collection<FranchiseDTO> franchises = franchiseMapper.franchiseToFranchiseDTO(
-                franchiseService.findAll()
-        );
-
+        Collection<FranchiseDTO> franchises = franchiseMapper.franchiseToFranchiseDTO(franchiseService.findAll());
         return ResponseEntity.ok(franchises);
     }
 

@@ -1,4 +1,4 @@
-package com.example.easpringapi.models.dto;
+package com.example.easpringapi.dto;
 
 
 import lombok.Data;
