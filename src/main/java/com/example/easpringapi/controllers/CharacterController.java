@@ -1,6 +1,7 @@
 package com.example.easpringapi.controllers;
 
 import com.example.easpringapi.dto.CharacterDTO;
+import com.example.easpringapi.dto.FranchiseDTO;
 import com.example.easpringapi.mappers.CharacterMapper;
 import com.example.easpringapi.models.Character;
 import com.example.easpringapi.services.CharacterService;
@@ -121,4 +122,5 @@ public class CharacterController {
         characterService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
 }
