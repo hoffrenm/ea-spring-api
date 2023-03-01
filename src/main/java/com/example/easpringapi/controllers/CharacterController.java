@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -100,16 +99,19 @@ public class CharacterController {
                     content = @Content),
             @ApiResponse(responseCode = "400",
                     description = "Mismatching IDs between request body and uri",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "Character not found with supplied ID",
                     content = @Content)
     })
     @PutMapping("{id}")
-    public ResponseEntity update(@RequestBody Character character, @PathVariable int id) {
+    public ResponseEntity update(@RequestBody CharacterDTO characterDTO, @PathVariable int id) {
         // Validates if body is correct
-        if (id != character.getId()) {
+        if (id != characterDTO.getId()) {
             return ResponseEntity.badRequest().build();
         }
 
-        characterService.update(character);
+        characterService.update(characterMapper.characterDTOToCharacter(characterDTO));
         return ResponseEntity.noContent().build();
     }
 

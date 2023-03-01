@@ -29,8 +29,14 @@ public class CharacterService {
         return characterRepository.save(character);
     }
 
-    public Character update(Character character) {
-        return characterRepository.save(character);
+    public void update(Character character) {
+        int id = character.getId();
+
+        if (characterRepository.existsById(id)) {
+            characterRepository.save(character);
+        } else {
+            throw new CharacterNotFoundException(id);
+        }
     }
 
     public void deleteById(Integer id) {
