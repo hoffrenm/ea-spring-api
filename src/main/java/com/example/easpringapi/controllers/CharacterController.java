@@ -36,7 +36,10 @@ public class CharacterController {
             @ApiResponse(responseCode = "200",
                     description = "Success",
                     content = {@Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = CharacterDTO.class)))})
+                            array = @ArraySchema(schema = @Schema(implementation = CharacterDTO.class)))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Mismatching IDs between request body and uri",
+                    content = @Content)
     })
     @GetMapping
     public ResponseEntity<Collection<CharacterDTO>> getAll() {
@@ -115,6 +118,9 @@ public class CharacterController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
                     description = "No content",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "Movie with id does not exist",
                     content = @Content)
     })
     @DeleteMapping("{id}")

@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,15 +30,19 @@ public class MovieController {
     }
 
     //get by id
+    @GetMapping
     @Operation(summary = "Get movie by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Movie fetched successfully",
                     content = {
                             @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = MovieDTO.class))
-                    })
+                                    schema = @Schema(implementation = MovieDTO.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "Movie does not exist with supplied ID",
+                    content = @Content)
     })
+
     public ResponseEntity<MovieDTO> findById(@PathVariable int id) {
         MovieDTO movieDTO = moviemapper.movieToMovieDTO(movieservice.findById(id));
 
@@ -52,9 +57,11 @@ public class MovieController {
                     description = "All movies fetched successfully",
                     content = {
                             @Content(mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = MovieDTO.class)))
+                                    array = @ArraySchema(schema = @Schema(implementation = MovieDTO.class)))}),
+                            @ApiResponse(responseCode = "400",
+                                    description = "Mismatching IDs between request body and uri",
+                                    content = @Content)
                     })
-    })
 
     public ResponseEntity<Collection<MovieDTO>> getAll() {
         Collection<MovieDTO> movies = moviemapper.movieToMovieDTO(movieservice.findAll());
@@ -68,6 +75,9 @@ public class MovieController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
                     description = "Created",
+                    content = @Content),
+            @ApiResponse(responseCode = "400",
+                    description = "Request body missing or invalid parameters",
                     content = @Content)
     })
 
@@ -85,6 +95,9 @@ public class MovieController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Movie updated successfully",
+                    content = @Content),
+            @ApiResponse(responseCode = "400",
+                    description = "Mismatching IDs between request body and uri",
                     content = @Content)
     })
 
@@ -108,7 +121,10 @@ public class MovieController {
                     content = {
                             @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = MovieDTO.class))
-                    })
+                    }),
+            @ApiResponse(responseCode = "404",
+                    description = "Movie with id does not exist",
+                    content = @Content)
     })
 
     public ResponseEntity deleteById(@RequestBody MovieDTO moviedto, @PathVariable int id) {
@@ -126,10 +142,11 @@ public class MovieController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Update successful",
+                    content = @Content),
+            @ApiResponse(responseCode = "400",
+                    description = "Mismatching IDs between request body and uri",
                     content = @Content)
     })
-
-
 
     public ResponseEntity updateCharacter(@PathVariable int id, @RequestBody int[] charactersIds) {
         movieservice.updateCharacters(id, charactersIds);

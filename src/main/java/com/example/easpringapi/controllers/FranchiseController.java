@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
-
 @RestController
 @RequestMapping(path = "api/v1/franchise")
 public class FranchiseController {
@@ -35,7 +34,10 @@ public class FranchiseController {
             @ApiResponse(responseCode = "200",
                     description = "Success",
                     content = {@Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = FranchiseDTO.class)))})
+                            array = @ArraySchema(schema = @Schema(implementation = FranchiseDTO.class)))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Mismatching IDs between request body and uri",
+                    content = @Content)
     })
     @GetMapping
     public ResponseEntity<Collection<FranchiseDTO>> getAll() {
@@ -111,6 +113,9 @@ public class FranchiseController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
                     description = "No content",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "Movie with id does not exist",
                     content = @Content)
     })
     @DeleteMapping("{id}")
@@ -125,9 +130,12 @@ public class FranchiseController {
             @ApiResponse(responseCode = "204",
                     description = "No content",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = FranchiseDTO.class))})
-
+                            schema = @Schema(implementation = FranchiseDTO.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Mismatching IDs between request body and uri",
+                    content = @Content)
     })
+
     @PutMapping("{id}/movies")
     public ResponseEntity updateMovie(@PathVariable int id, @RequestBody int[] movieIds) {
         franchiseService.updateMovies(id, movieIds);
