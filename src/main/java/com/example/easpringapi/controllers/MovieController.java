@@ -3,7 +3,6 @@ package com.example.easpringapi.controllers;
 import com.example.easpringapi.mappers.MovieMapper;
 import com.example.easpringapi.models.dto.MovieDTO;
 import com.example.easpringapi.models.Movie;
-import com.example.easpringapi.repositories.MovieRepository;
 import com.example.easpringapi.services.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -11,7 +10,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,22 +29,19 @@ public class MovieController {
     }
 
     //get by id
-    @GetMapping("{id}")
     @Operation(summary = "Get movie by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "Movie fetched succesfully",
+                    description = "Movie fetched successfully",
                     content = {
                             @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = MovieDTO.class))
                     })
     })
+    public ResponseEntity<MovieDTO> findById(@PathVariable int id) {
+        MovieDTO movieDTO = moviemapper.movieToMovieDTO(movieservice.findById(id));
 
-    public ResponseEntity<Movie> findById(@PathVariable int id) {
-        return ResponseEntity.ok(
-                moviemapper.movieToMovieDTO(
-                        movieservice.findById(id)));
-
+        return ResponseEntity.ok(movieDTO);
     }
 
     //get all
@@ -54,17 +49,17 @@ public class MovieController {
     @Operation(summary = "Get All Movies")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "All movies fetched succesfully",
+                    description = "All movies fetched successfully",
                     content = {
                             @Content(mediaType = "application/json",
                                     array = @ArraySchema(schema = @Schema(implementation = MovieDTO.class)))
                     })
     })
 
-    public ResponseEntity getAll() {
-        return ResponseEntity.ok(
-                moviemapper.movieToMovieDTO(
-                        movieservice.findAll()));
+    public ResponseEntity<Collection<MovieDTO>> getAll() {
+        Collection<MovieDTO> movies = moviemapper.movieToMovieDTO(movieservice.findAll());
+
+        return ResponseEntity.ok(movies);
     }
 
     //create
@@ -75,6 +70,7 @@ public class MovieController {
                     description = "Created",
                     content = @Content)
     })
+
 
     public ResponseEntity add(@RequestBody MovieDTO movieDto) {
         Movie movieToPost = movieservice.addMovie(moviemapper.movieDTOToMovie(movieDto));
@@ -88,7 +84,7 @@ public class MovieController {
     @Operation(summary = "Update an existing movie")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "Movie updated succesfully",
+                    description = "Movie updated successfully",
                     content = @Content)
     })
 
@@ -108,7 +104,7 @@ public class MovieController {
     @Operation(summary = "Delete a given movie")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
-                    description = "Movie deleted succesfully",
+                    description = "Movie deleted successfully",
                     content = {
                             @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = MovieDTO.class))
@@ -129,9 +125,11 @@ public class MovieController {
     @Operation(summary = "update a character in a movie")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "Update succesful",
+                    description = "Update successful",
                     content = @Content)
     })
+
+
 
     public ResponseEntity updateCharacter(@PathVariable int id, @RequestBody int[] charactersIds) {
         movieservice.updateCharacters(id, charactersIds);

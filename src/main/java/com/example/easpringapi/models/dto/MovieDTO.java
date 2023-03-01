@@ -1,7 +1,9 @@
 package com.example.easpringapi.models.dto;
 
-import com.example.easpringapi.models.Franchise;
+
 import lombok.Data;
+
+import java.util.Set;
 
 @Data
 public class MovieDTO {
@@ -10,5 +12,6 @@ public class MovieDTO {
     private String genre;
     private String releaseYear;
     private String director;
-    private Franchise franchise;
+    private Integer franchise;
+    private Set<Integer> characters;
 }
