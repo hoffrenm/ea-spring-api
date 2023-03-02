@@ -8,7 +8,7 @@ WORKDIR /app
 ENV PORT 8080
 ENV SPRING_PROFILE production
 ARG JAR_FILE=/app/target/*.jar
-COPY --from=maven ${JAR_FILE} /app.jar
+COPY --from=maven ${JAR_FILE} /app/app.jar
 
 RUN chown -R 1000:1000 /app
 USER 1000:1000
