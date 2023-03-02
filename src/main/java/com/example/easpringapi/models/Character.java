@@ -28,7 +28,7 @@ public class Character {
     @Column(length = 32)
     private String gender;
 
-    @Column(length = 128)
+    @Column(length = 250)
     private String pictureUrl;
 
     @ManyToMany(mappedBy = "characters")

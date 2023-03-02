@@ -17,5 +17,7 @@ public class MovieDTO {
     private String releaseYear;
     private String director;
     private Integer franchise;
+    private String picture;
+    private String trailer;
     private Set<Integer> characters;
 }
