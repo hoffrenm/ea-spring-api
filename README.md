@@ -10,13 +10,19 @@ All of the functional requirements are met, and each test has been passed.
 
 ### Business Rules
 
-![image](https://user-images.githubusercontent.com/89412182/222429685-60d36f57-6343-493b-83c5-bde5e2644dbb.png)
+One movie contains many characters, and a character can play in multiple movies.
+
+One movie belongs to one franchise, but a franchise can contain many movies.
 
 ### API Requirements
 
-![image](https://user-images.githubusercontent.com/89412182/222429817-79278628-e604-4934-b231-3e1519fe7ad0.png)
+Full CRUD functionality in Movies, Characters, and Franchises. Additionally:
 
-![image](https://user-images.githubusercontent.com/89412182/222429871-29fff9a7-925c-413f-96ab-9f57194b677b.png)
+  - Updating movies in a franchise
+  - Updating characters in a movie
+  - Get all the movies in a franchise
+  - Get all the characters in a movie
+  - Get all the characters in a franchise
 
 ### Documentation and Deloyment
 
