@@ -23,7 +23,7 @@ Full CRUD functionality in Movies, Characters, and Franchises. Additionally:
   - Get all the characters in a movie
   - Get all the characters in a franchise
 
-### Documentation and Deloyment
+### Documentation and Deployment
 
 Documentation was made by using Swagger and Open API. Application was built by using Docker.
 
