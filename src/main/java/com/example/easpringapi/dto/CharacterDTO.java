@@ -4,6 +4,10 @@ import lombok.Data;
 
 import java.util.Set;
 
+/**
+ * Data transfer object that represents Character model
+ * for outgoing data transfer purposes.
+ */
 @Data
 public class CharacterDTO {
     private int id;
