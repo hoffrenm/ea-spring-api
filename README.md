@@ -10,9 +10,8 @@ All of the functional requirements are met, and each test has been passed.
 
 ### Business Rules
 
-One movie contains many characters, and a character can play in multiple movies.
-
-One movie belongs to one franchise, but a franchise can contain many movies.
+  - One movie contains many characters, and a character can play in multiple movies
+  - One movie belongs to one franchise, but a franchise can contain many movies
 
 ### API Requirements
 
