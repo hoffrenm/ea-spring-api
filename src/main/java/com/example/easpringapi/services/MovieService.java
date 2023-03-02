@@ -1,19 +1,21 @@
 package com.example.easpringapi.services;
 
-import com.example.easpringapi.exceptions.CharacterNotFoundException;
 import com.example.easpringapi.mappers.MovieMapper;
 import com.example.easpringapi.models.Movie;
 import com.example.easpringapi.models.Character;
 
 import com.example.easpringapi.repositories.MovieRepository;
 import com.example.easpringapi.repositories.CharacterRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import com.example.easpringapi.exceptions.MovieNotFoundException;
 
 
 import java.util.Collection;
 import java.util.HashSet;
+
+/**
+ * Service that encapsulates business logic of Movie
+ */
 
 @Service
 public class MovieService {

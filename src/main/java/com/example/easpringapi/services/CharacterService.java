@@ -8,7 +8,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+/**
+ * Service that encapsulates business logic of Character
+ */
+
 @Service
+
 public class CharacterService {
 
     private final CharacterRepository characterRepository;

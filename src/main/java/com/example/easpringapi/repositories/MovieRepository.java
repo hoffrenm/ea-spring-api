@@ -7,6 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Set;
 
+/**
+ * encapsulates data access of Movie class
+ */
+
+
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
 

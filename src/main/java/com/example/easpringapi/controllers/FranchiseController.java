@@ -1,6 +1,8 @@
 package com.example.easpringapi.controllers;
 
+import com.example.easpringapi.dto.CharacterDTO;
 import com.example.easpringapi.dto.MovieDTO;
+import com.example.easpringapi.mappers.CharacterMapper;
 import com.example.easpringapi.mappers.MovieMapper;
 import com.example.easpringapi.models.Franchise;
 import com.example.easpringapi.dto.FranchiseDTO;
@@ -17,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/v1/franchises")
@@ -25,11 +28,13 @@ public class FranchiseController {
     private final FranchiseService franchiseService;
     private final FranchiseMapper franchiseMapper;
     private final MovieMapper movieMapper;
+    private final CharacterMapper characterMapper;
 
-    public FranchiseController(FranchiseService service, FranchiseMapper franchiseMapper, MovieMapper movieMapper) {
+    public FranchiseController(FranchiseService service, FranchiseMapper franchiseMapper, MovieMapper movieMapper, CharacterMapper characterMapper) {
         this.franchiseService = service;
         this.franchiseMapper = franchiseMapper;
         this.movieMapper = movieMapper;
+        this.characterMapper = characterMapper;
     }
 
     // GET: /api/v1/franchises
@@ -165,4 +170,20 @@ public class FranchiseController {
 
         return ResponseEntity.ok(movies);
     }
+
+    // GET: /api/v1/franchises/{id}/characters
+    @Operation(summary = "Get characters in a franchise by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Success",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = FranchiseDTO.class)))}),
+            @ApiResponse(responseCode = "404",
+                    description = "Charecters franchise id not found",
+                    content = @Content)
+    })
+
+    @GetMapping("{id}/characters")
+    public ResponseEntity getCharactersInFranchise(@PathVariable Integer id){
+        return ResponseEntity.ok(characterMapper.characterToCharacterDTO(franchiseService.getCharactersInFranchise(id)));}
 }

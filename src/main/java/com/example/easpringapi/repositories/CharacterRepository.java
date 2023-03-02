@@ -7,6 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Set;
 
+/**
+ * encapsulates data access of Character class
+ */
+
 @Repository
 public interface CharacterRepository extends JpaRepository<Character, Integer> {
 

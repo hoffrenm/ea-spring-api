@@ -1,6 +1,7 @@
 package com.example.easpringapi.services;
 
 import com.example.easpringapi.exceptions.FranchiseNotFoundException;
+import com.example.easpringapi.mappers.CharacterMapper;
 import com.example.easpringapi.mappers.FranchiseMapper;
 import com.example.easpringapi.models.Character;
 import com.example.easpringapi.models.Franchise;
@@ -13,6 +14,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Service that encapsulates business logic of Franchise
+ */
 
 @Service
 public class FranchiseService {
@@ -20,11 +24,15 @@ public class FranchiseService {
     private final FranchiseRepository franchiseRepository;
     private final FranchiseMapper franchiseMapper;
     private final MovieRepository movieRepository;
+    private final CharacterMapper characterMapper;
 
-    public FranchiseService(FranchiseRepository repository, FranchiseMapper franchiseMapper, MovieRepository movieRepository) {
+
+    public FranchiseService(FranchiseRepository repository, FranchiseMapper franchiseMapper, MovieRepository movieRepository, CharacterMapper characterMapper) {
         this.franchiseRepository = repository;
         this.franchiseMapper = franchiseMapper;
         this.movieRepository = movieRepository;
+        this.characterMapper = characterMapper;
+
     }
 
     public Collection<Franchise> findAll() {
@@ -67,5 +75,12 @@ public class FranchiseService {
         } else {
             throw new FranchiseNotFoundException(franchiseId);
         }
+    }
+
+    public Set<Character> getCharactersInFranchise(Integer franchiseId) {
+        Set<Movie> moviesInFranchise = franchiseRepository.findById(franchiseId).get().getMovies();
+        Set<Character> charactersInFranchise = new HashSet<>();
+        moviesInFranchise.forEach(s-> charactersInFranchise.addAll(s.getCharacters()));
+        return charactersInFranchise;
     }
 }
