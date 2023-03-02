@@ -1,13 +1,19 @@
 ## Movie Characters API
 
-Third Java assignment in the Noroff backend program. The project was completed by Mika Hoffren and Aino Ylä-Outinen. 
+This repository is for the third Java assignment in the Noroff backend program. The project was completed by Mika Hoffren and Aino Ylä-Outinen. 
 
 ### Objective and Requirements
 
 The main objective of the project was to create a PostgreSQL database using Hibernate and expose it through a deployed Web API.
 All of the functional requirements are met, and each test has been passed.
 
-![image](https://user-images.githubusercontent.com/89412182/222427851-196673a0-2d41-442c-9772-942b6e3a5349.png)
+### Appenxid A
+
+![image](https://user-images.githubusercontent.com/89412182/222428701-55d689c6-69af-47c4-a6c4-2cdbb99f9508.png)
+
+Alongside this, there are some business requirements.
+
+### Appenxid B
 
 ![image](https://user-images.githubusercontent.com/89412182/222428110-1206ffc0-ef8c-480f-8dad-048c1e176f65.png)
 
