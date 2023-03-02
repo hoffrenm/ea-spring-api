@@ -1,27 +1,16 @@
-docker-build:
-  # Use the official docker image.
-  image: docker:latest
-  stage: build
-  services:
-    - docker:dind
-  before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-  # Default branch leaves tag empty (= latest tag)
-  # All other branches are tagged with the escaped branch name (commit ref slug)
-  script:
-    - |
-      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
-        tag=""
-        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = 'latest'"
-      else
-        tag=":$CI_COMMIT_REF_SLUG"
-        echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
-      fi
-    - docker build --pull -t "$CI_REGISTRY_IMAGE${tag}" .
-    - docker push "$CI_REGISTRY_IMAGE${tag}"
-  # Run this job in a branch where a Dockerfile exists
-  rules:
-    - if: $CI_COMMIT_BRANCH
-      exists:
-        - Dockerfile
+FROM maven:3-openjdk-17 AS maven
+WORKDIR /app
+COPY . .
+RUN maven clean package
 
+FROM openjdk:17 as runtime
+WORKDIR /app
+ENV PORT 8080
+ENV SPRING_PROFILE production
+ARG JAR_FILE=/app/target/*.jar
+COPY --from=maven ${JAR_FILE} /app.jar
+
+RUN chown -R 1000:1000 /app
+USER 1000:1000
+
+ENTRYPOINT ["java", "-jar", "-Dserver.port=${PORT}", "-Dspring.profiles.active=${SPRING_PROFILE}", "app.jar"]
