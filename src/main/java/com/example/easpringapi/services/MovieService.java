@@ -7,6 +7,7 @@ import com.example.easpringapi.models.Character;
 
 import com.example.easpringapi.repositories.MovieRepository;
 import com.example.easpringapi.repositories.CharacterRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import com.example.easpringapi.exceptions.MovieNotFoundException;
 
@@ -61,4 +62,11 @@ public class MovieService {
         movierepository.save(movie);
     }
 
+    public Collection<Character> getCharactersInMovie(Integer movieId) {
+        if (movierepository.existsById(movieId)) {
+            return characterrepository.findAllByMovie(movieId);
+        } else {
+            throw new MovieNotFoundException(movieId);
+        }
+    }
 }

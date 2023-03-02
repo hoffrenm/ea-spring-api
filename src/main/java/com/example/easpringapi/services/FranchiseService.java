@@ -61,4 +61,11 @@ public class FranchiseService {
         franchiseRepository.save(franchise);
     }
 
+    public Collection<Movie> getMoviesInFranchise(Integer franchiseId) {
+        if (franchiseRepository.existsById(franchiseId)) {
+            return movieRepository.findAllByFranchise(franchiseId);
+        } else {
+            throw new FranchiseNotFoundException(franchiseId);
+        }
+    }
 }

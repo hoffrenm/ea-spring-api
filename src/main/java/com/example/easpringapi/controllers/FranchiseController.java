@@ -1,5 +1,7 @@
 package com.example.easpringapi.controllers;
 
+import com.example.easpringapi.dto.MovieDTO;
+import com.example.easpringapi.mappers.MovieMapper;
 import com.example.easpringapi.models.Franchise;
 import com.example.easpringapi.dto.FranchiseDTO;
 import com.example.easpringapi.mappers.FranchiseMapper;
@@ -17,15 +19,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 @RestController
-@RequestMapping(path = "api/v1/franchise")
+@RequestMapping(path = "api/v1/franchises")
 public class FranchiseController {
 
     private final FranchiseService franchiseService;
     private final FranchiseMapper franchiseMapper;
+    private final MovieMapper movieMapper;
 
-    public FranchiseController(FranchiseService service, FranchiseMapper mapper) {
+    public FranchiseController(FranchiseService service, FranchiseMapper franchiseMapper, MovieMapper movieMapper) {
         this.franchiseService = service;
-        this.franchiseMapper = mapper;
+        this.franchiseMapper = franchiseMapper;
+        this.movieMapper = movieMapper;
     }
 
     // GET: /api/v1/franchises
@@ -42,6 +46,7 @@ public class FranchiseController {
     @GetMapping
     public ResponseEntity<Collection<FranchiseDTO>> getAll() {
         Collection<FranchiseDTO> franchises = franchiseMapper.franchiseToFranchiseDTO(franchiseService.findAll());
+
         return ResponseEntity.ok(franchises);
     }
 
@@ -115,30 +120,49 @@ public class FranchiseController {
                     description = "No content",
                     content = @Content),
             @ApiResponse(responseCode = "404",
-                    description = "Movie with id does not exist",
+                    description = "Franchise with id does not exist",
                     content = @Content)
     })
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         franchiseService.deleteById(id);
+
         return ResponseEntity.noContent().build();
     }
 
     //UPDATE movie in franchise
     @Operation(summary = "Update a movie in a franchise")
-    @ApiResponses(value= {
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
                     description = "No content",
-                    content = { @Content(mediaType = "application/json",
+                    content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = FranchiseDTO.class))}),
             @ApiResponse(responseCode = "400",
                     description = "Mismatching IDs between request body and uri",
                     content = @Content)
     })
-
     @PutMapping("{id}/movies")
     public ResponseEntity updateMovie(@PathVariable int id, @RequestBody int[] movieIds) {
         franchiseService.updateMovies(id, movieIds);
+
         return ResponseEntity.noContent().build();
+    }
+
+    // GET: /api/v1/franchises/1/movies
+    @Operation(summary = "Get all movies in franchise")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Success",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = FranchiseDTO.class)))}),
+            @ApiResponse(responseCode = "404",
+                    description = "Franchise not found",
+                    content = @Content)
+    })
+    @GetMapping("{id}/movies")
+    public ResponseEntity<Collection<MovieDTO>> getMoviesInFranchise(@PathVariable Integer id) {
+        Collection<MovieDTO> movies = movieMapper.movieToMovieDTO(franchiseService.getMoviesInFranchise(id));
+
+        return ResponseEntity.ok(movies);
     }
 }
