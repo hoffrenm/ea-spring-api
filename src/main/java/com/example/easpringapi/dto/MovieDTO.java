@@ -5,6 +5,10 @@ import lombok.Data;
 
 import java.util.Set;
 
+/**
+ * Data transfer object that represents Movie model
+ * for outgoing data transfer purposes.
+ */
 @Data
 public class MovieDTO {
     private int id;

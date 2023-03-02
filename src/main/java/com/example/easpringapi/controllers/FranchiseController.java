@@ -87,9 +87,9 @@ public class FranchiseController {
                     content = @Content)
     })
     @PostMapping
-    public ResponseEntity<FranchiseDTO> add(@RequestBody Franchise franchise) {
+    public ResponseEntity<FranchiseDTO> add(@RequestBody FranchiseDTO franchiseDTO) {
         try {
-            Franchise createdFranchise = franchiseService.add(franchise);
+            Franchise createdFranchise = franchiseService.add(franchiseMapper.franchiseDTOToFranchise(franchiseDTO));
             FranchiseDTO createdCharacterDTO = franchiseMapper.franchiseToFranchiseDTO(createdFranchise);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdCharacterDTO);
         } catch (Exception e) {

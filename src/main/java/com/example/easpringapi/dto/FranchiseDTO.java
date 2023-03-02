@@ -7,8 +7,11 @@ import lombok.Setter;
 import java.util.Set;
 
 
+/**
+ * Data transfer object that represents Franchise model
+ * for outgoing data transfer purposes.
+ */
 @Data
-
 public class FranchiseDTO {
     private int id;
     private String name;
