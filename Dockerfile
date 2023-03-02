@@ -1,7 +1,7 @@
 FROM maven:3-openjdk-17 AS maven
 WORKDIR /app
 COPY . .
-RUN maven clean package
+RUN mvn clean package
 
 FROM openjdk:17 as runtime
 WORKDIR /app
