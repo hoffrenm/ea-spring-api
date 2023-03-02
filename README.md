@@ -1,7 +1,7 @@
 # Movie Characters API
 
 Movie Characters API was completed for the third Java assignment in the Noroff Accelerate backend program. 
-The project was completed by Mika Hoffren and Aino Ylä-Outinen. 
+The project was made by Mika Hoffren and Aino Ylä-Outinen. 
 
 ## Objective and Requirements
 
