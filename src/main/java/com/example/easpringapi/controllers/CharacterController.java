@@ -1,6 +1,7 @@
 package com.example.easpringapi.controllers;
 
 import com.example.easpringapi.dto.CharacterDTO;
+import com.example.easpringapi.dto.FranchiseDTO;
 import com.example.easpringapi.mappers.CharacterMapper;
 import com.example.easpringapi.models.Character;
 import com.example.easpringapi.services.CharacterService;
@@ -10,7 +11,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +35,10 @@ public class CharacterController {
             @ApiResponse(responseCode = "200",
                     description = "Success",
                     content = {@Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = CharacterDTO.class)))})
+                            array = @ArraySchema(schema = @Schema(implementation = CharacterDTO.class)))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Mismatching IDs between request body and uri",
+                    content = @Content)
     })
     @GetMapping
     public ResponseEntity<Collection<CharacterDTO>> getAll() {
@@ -96,16 +99,19 @@ public class CharacterController {
                     content = @Content),
             @ApiResponse(responseCode = "400",
                     description = "Mismatching IDs between request body and uri",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "Character not found with supplied ID",
                     content = @Content)
     })
     @PutMapping("{id}")
-    public ResponseEntity update(@RequestBody Character character, @PathVariable int id) {
+    public ResponseEntity update(@RequestBody CharacterDTO characterDTO, @PathVariable int id) {
         // Validates if body is correct
-        if (id != character.getId()) {
+        if (id != characterDTO.getId()) {
             return ResponseEntity.badRequest().build();
         }
 
-        characterService.update(character);
+        characterService.update(characterMapper.characterDTOToCharacter(characterDTO));
         return ResponseEntity.noContent().build();
     }
 
@@ -114,6 +120,9 @@ public class CharacterController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
                     description = "No content",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "Movie with id does not exist",
                     content = @Content)
     })
     @DeleteMapping("{id}")
@@ -121,4 +130,5 @@ public class CharacterController {
         characterService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
 }
