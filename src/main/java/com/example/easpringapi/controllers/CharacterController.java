@@ -81,9 +81,9 @@ public class CharacterController {
                     content = @Content)
     })
     @PostMapping
-    public ResponseEntity<CharacterDTO> add(@RequestBody Character character) {
+    public ResponseEntity<CharacterDTO> add(@RequestBody CharacterDTO characterDTO) {
         try {
-            Character createdCharacter = characterService.add(character);
+            Character createdCharacter = characterService.add(characterMapper.characterDTOToCharacter(characterDTO));
             CharacterDTO createdCharacterDTO = characterMapper.characterToCharacterDTO(createdCharacter);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdCharacterDTO);
         } catch (Exception e) {
