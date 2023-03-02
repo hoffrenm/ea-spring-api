@@ -47,9 +47,10 @@ public class MovieService {
         return movierepository.save(movie);
     }
 
-    public Movie delete(Movie movie) {
-        return movierepository.save(movie);
+    public void deleteById(Integer id) {
+        movierepository.deleteById(id);
     }
+
 
     public void updateCharacters(int movieId, int[] characterIds) throws RuntimeException {
         Movie movie = movierepository.findById(movieId).get();
@@ -71,4 +72,5 @@ public class MovieService {
             throw new MovieNotFoundException(movieId);
         }
     }
+
 }

@@ -126,14 +126,12 @@ public class MovieController {
                     description = "Movie with id does not exist",
                     content = @Content)
     })
-    public ResponseEntity deleteById(@RequestBody MovieDTO moviedto, @PathVariable int id) {
-        if (id == moviedto.getId())
-            movieservice.delete(
-                    moviemapper.movieDTOToMovie(moviedto)
-            );
+    public ResponseEntity<Void>deleteById(@PathVariable int id) {
+            movieservice.deleteById(id);
 
-        return ResponseEntity.noContent().build();
-    }
+            return ResponseEntity.noContent().build();
+        }
+
 
     //update a character in a movie
     @PutMapping("{id}/characters")

@@ -1,6 +1,5 @@
 package com.example.easpringapi.controllers;
 
-import com.example.easpringapi.dto.CharacterDTO;
 import com.example.easpringapi.dto.MovieDTO;
 import com.example.easpringapi.mappers.CharacterMapper;
 import com.example.easpringapi.mappers.MovieMapper;
