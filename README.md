@@ -8,6 +8,12 @@ The project was made by Mika Hoffren and Aino Ylä-Outinen.
 The main objective of the project was to create a PostgreSQL database using Hibernate and expose it through a deployed Web API.
 All of the functional requirements are met, and each test has been passed.
 
+## Tools
+  - IntelliJ with Java 17
+  - Spring Web, Spring Data JPA, PostgreSQL, Lombok
+  - PostgreSQL with PgAdmin
+  - Docker 
+
 ### Business Rules
 
   - One movie contains many characters, and a character can play in multiple movies
