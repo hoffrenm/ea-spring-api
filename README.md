@@ -1,7 +1,36 @@
 # Movie Characters API
 
 Movie Characters API was completed for the third Java assignment in the Noroff Accelerate backend program. 
-The project was made by Mika Hoffren and Aino Ylä-Outinen. 
+The project was made by Mika Hoffren and Aino Ylä-Outinen.
+
+## How to run
+
+After cloning the project there are multiple ways to get project running.
+
+### With Docker
+
+Use supplied `docker-compose.yaml` file. You will need `docker-compose` on your machine.
+
+Execute following at the project root directory
+
+- `docker-compose up`
+
+Everything is executed within containers. You might want to run `docker-compose down` after you are done.
+
+### With IDE / terminal
+
+For these you will need to have Postgres instance running on your local machine e.g. database at `localhost:5432/movieDB` needs to exists. For example this can be done with PgAdmin tool.
+
+- You can execute the project with most IDEs. Please note that the project utilizes maven.
+
+Or if you prefer terminal
+
+- `mvn clean install -DskipTests`
+- `mvn exec:java -Dexec.mainClass=com.example.easpringapi.EaSpringApiApplication`
+
+### API endpoints 
+
+In all cases the project will launch to `localhost:8080`. You can check api endpoints at http://localhost:8080/swagger-ui.html
 
 ## Objective and Requirements
 
